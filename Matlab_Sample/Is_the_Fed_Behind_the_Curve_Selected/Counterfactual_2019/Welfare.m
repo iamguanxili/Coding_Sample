@@ -23,18 +23,17 @@ for i = 1:length(Loss(:, 1))
 end
 
 
-
+%% FIGURE
 figure;
 hold on;
 
-% Gradient color
+% Set gradient color
 startColor_p = [0.7, 0.7, 1]; % Positive value, light blue
 endColor_p = [0, 0, 0.5]; % Positive value, dark blue
 
 startColor_n = [1, 0.7, 0.7]; % Negative value, light red
 endColor_n = [0.5, 0, 0]; % Negative value, dark red
 
-%% Figure
 for i = 1:numel(Welfare_loss)
     % Calculate the color of the bar
     if Welfare_loss(i) >= 0

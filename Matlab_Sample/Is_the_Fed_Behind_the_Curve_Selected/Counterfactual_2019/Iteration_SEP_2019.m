@@ -4,7 +4,7 @@ for i=1:size(Ey,1)
     
     if i >= starting_year;
 
-        %Rename median SEP forecasts 和long run forecast的偏差
+        %Rename the gaps of median SEP forecasts and long run forecast
         EU=Ey_gap(i,1:H,1)';
         EPi=Ey_gap(i,1:H,2)';
         EY=[Ey_gap(i,1:H,1)'; Ey_gap(i,1:H,2)'];
