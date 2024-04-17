@@ -1,1 +1,1 @@
-# Coding_Sample
+This is the coding sample written by Guanxi Li.
