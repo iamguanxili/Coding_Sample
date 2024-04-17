@@ -505,6 +505,8 @@ end
 
 %% Report results:
 bTable_output_SEP = bTable_output;
-save('bTable_output_SEP_2019.mat', 'bTable_output_SEP', 'yearn','OPP1','yearn_tp');
-save('Welfare.mat','Ey_gap','Ey_gap_raw', 'yearn');
+if saver == 1
+    save('bTable_output_SEP_2019.mat', 'bTable_output_SEP', 'yearn','OPP1','yearn_tp');
+    save('Welfare.mat','Ey_gap','Ey_gap_raw', 'yearn');
+end
 Counterfactual_inflation_rate_plot_SEP_2019
