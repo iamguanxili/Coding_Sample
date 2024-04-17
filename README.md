@@ -1,1 +1,1 @@
-### This is the coding sample written by Guanxi Li.
+This is the coding sample written by Guanxi Li.
