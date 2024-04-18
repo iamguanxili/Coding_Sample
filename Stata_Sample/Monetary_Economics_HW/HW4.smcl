@@ -1,0 +1,554 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/liguanxi/Dropbox/Coding_Sample/Coding_Sample/Stata_Sample/Monetary_Economics_HW/HW4.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}18 Apr 2024, 13:08:37
+{txt}
+{com}. clear
+{txt}
+{com}. set more off
+{txt}
+{com}. 
+. cd "/Users/liguanxi/Dropbox/Coding_Sample/Coding_Sample/Stata_Sample/Monetary_Economics_HW"
+{res}/Users/liguanxi/Dropbox/Coding_Sample/Coding_Sample/Stata_Sample/Monetary_Economics_HW
+{txt}
+{com}. clear
+{txt}
+{com}. insheet using HW_data.csv
+{txt}(6 vars, 35 obs)
+
+{com}. browse
+{txt}
+{com}. 
+. 
+. tsset year
+{res}{txt}{col 9}time variable:  {res}{col 25}year, 1986 to 2020
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. gen lnm2=ln(m2)
+{txt}
+{com}. gen lngdp=ln(gdp)
+{txt}
+{com}. gen lninf=ln(inf)
+{txt}(4 missing values generated)
+
+{com}. gen M = m
+{txt}
+{com}. 
+. 
+. * Specify the max n of lag
+. di 12 * 0.35^0.25
+{res}9.2299268
+{txt}
+{com}. 
+. 
+. 
+. * check the constant and term of time trend
+. twoway(line m2 year)
+{res}{txt}
+{com}. twoway(line gdp year)
+{res}{txt}
+{com}. twoway(line i year)
+{res}{txt}
+{com}. twoway(line inf year)
+{res}{txt}
+{com}. twoway(line M year)
+{res}{txt}
+{com}. twoway(line lnm2 year)
+{res}{txt}
+{com}. twoway(line lngdp year)
+{res}{txt}
+{com}. twoway(line lninf year)
+{res}{txt}
+{com}. 
+. 
+. * ADF
+. dfuller lnm2, lags(9) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       25
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.862            -4.380            -3.600            -3.240
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lnm2, lags(8) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       26
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.277            -4.371            -3.596            -3.238
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9962
+{txt}
+{com}. dfuller lnm2, lags(7) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       27
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.955            -4.362            -3.592            -3.235
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lnm2, lags(6) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       28
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.708            -4.352            -3.588            -3.233
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lnm2, lags(5) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       29
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.318            -4.343            -3.584            -3.230
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lnm2, lags(4) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       30
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.381            -4.334            -3.580            -3.228
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lnm2, lags(3) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       31
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -0.006            -4.325            -3.576            -3.226
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9942
+{txt}
+{com}. dfuller lnm2, lags(2) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       32
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.109            -4.316            -3.572            -3.223
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9952
+{txt}
+{com}. dfuller lnm2, lags(1) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       33
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -0.681            -4.306            -3.568            -3.221
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9744
+{txt}
+{com}. dfuller lnm2, trend
+
+{txt}Dickey-Fuller test for unit root                   Number of obs   = {res}       34
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.012            -4.297            -3.564            -3.218
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9944
+{txt}
+{com}. 
+. 
+. 
+. dfuller lngdp, lags(9) trend 
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       25
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.424            -4.380            -3.600            -3.240
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lngdp, lags(8) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       26
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.219            -4.371            -3.596            -3.238
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lngdp, lags(7) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       27
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.512            -4.362            -3.592            -3.235
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lngdp, lags(6) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       28
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.185            -4.352            -3.588            -3.233
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lngdp, lags(5) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       29
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     1.155            -4.343            -3.584            -3.230
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. dfuller lngdp, lags(4) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       30
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.543            -4.334            -3.580            -3.228
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9969
+{txt}
+{com}. dfuller lngdp, lags(3) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       31
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.311            -4.325            -3.576            -3.226
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9963
+{txt}
+{com}. dfuller lngdp, lags(2) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       32
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.549            -4.316            -3.572            -3.223
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9969
+{txt}
+{com}. dfuller lngdp, lags(1) trend
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       33
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.014            -4.306            -3.568            -3.221
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.9423
+{txt}
+{com}. dfuller lngdp, trend
+
+{txt}Dickey-Fuller test for unit root                   Number of obs   = {res}       34
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}     0.908            -4.297            -3.564            -3.218
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}1.0000
+{txt}
+{com}. 
+. 
+. dfuller i, lags(9) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       25
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -4.792            -3.750            -3.000            -2.630
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.0001
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.4708974{col 26}{space 2} .0982722{col 37}{space 1}   -4.79{col 46}{space 3}0.000{col 54}{space 4}-.6816703{col 67}{space 3}-.2601246
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2}-.0930976{col 26}{space 2} .1710905{col 37}{space 1}   -0.54{col 46}{space 3}0.595{col 54}{space 4}-.4600504{col 67}{space 3} .2738551
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2} .0244177{col 26}{space 2} .1585273{col 37}{space 1}    0.15{col 46}{space 3}0.880{col 54}{space 4}-.3155895{col 67}{space 3}  .364425
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2} .1103001{col 26}{space 2} .1439758{col 37}{space 1}    0.77{col 46}{space 3}0.456{col 54}{space 4}-.1984971{col 67}{space 3} .4190974
+{txt}{space 8}L4D. {c |}{col 14}{res}{space 2} .1225012{col 26}{space 2} .1404969{col 37}{space 1}    0.87{col 46}{space 3}0.398{col 54}{space 4}-.1788347{col 67}{space 3}  .423837
+{txt}{space 8}L5D. {c |}{col 14}{res}{space 2}-.0944644{col 26}{space 2} .1348015{col 37}{space 1}   -0.70{col 46}{space 3}0.495{col 54}{space 4}-.3835849{col 67}{space 3} .1946561
+{txt}{space 8}L6D. {c |}{col 14}{res}{space 2}-.0643192{col 26}{space 2} .1381988{col 37}{space 1}   -0.47{col 46}{space 3}0.649{col 54}{space 4}-.3607261{col 67}{space 3} .2320877
+{txt}{space 8}L7D. {c |}{col 14}{res}{space 2} .0919788{col 26}{space 2} .1119074{col 37}{space 1}    0.82{col 46}{space 3}0.425{col 54}{space 4}-.1480387{col 67}{space 3} .3319963
+{txt}{space 8}L8D. {c |}{col 14}{res}{space 2}-.0646125{col 26}{space 2} .1140919{col 37}{space 1}   -0.57{col 46}{space 3}0.580{col 54}{space 4}-.3093154{col 67}{space 3} .1800904
+{txt}{space 8}L9D. {c |}{col 14}{res}{space 2}-.0556777{col 26}{space 2} .1120704{col 37}{space 1}   -0.50{col 46}{space 3}0.627{col 54}{space 4}-.2960447{col 67}{space 3} .1846893
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.049796{col 26}{space 2} .3462194{col 37}{space 1}    3.03{col 46}{space 3}0.009{col 54}{space 4} .3072288{col 67}{space 3} 1.792362
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(8) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       26
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -3.744            -3.743            -2.997            -2.629
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.0035
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.2929119{col 26}{space 2} .0782414{col 37}{space 1}   -3.74{col 46}{space 3}0.002{col 54}{space 4}-.4587763{col 67}{space 3}-.1270476
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2}-.0187705{col 26}{space 2} .1793149{col 37}{space 1}   -0.10{col 46}{space 3}0.918{col 54}{space 4}-.3989011{col 67}{space 3} .3613601
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2} .2435758{col 26}{space 2}  .150781{col 37}{space 1}    1.62{col 46}{space 3}0.126{col 54}{space 4}-.0760656{col 67}{space 3} .5632171
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2} .0258788{col 26}{space 2} .1579764{col 37}{space 1}    0.16{col 46}{space 3}0.872{col 54}{space 4}-.3090161{col 67}{space 3} .3607737
+{txt}{space 8}L4D. {c |}{col 14}{res}{space 2} .0183604{col 26}{space 2} .1505742{col 37}{space 1}    0.12{col 46}{space 3}0.904{col 54}{space 4}-.3008427{col 67}{space 3} .3375636
+{txt}{space 8}L5D. {c |}{col 14}{res}{space 2} -.200015{col 26}{space 2} .1436906{col 37}{space 1}   -1.39{col 46}{space 3}0.183{col 54}{space 4}-.5046254{col 67}{space 3} .1045953
+{txt}{space 8}L6D. {c |}{col 14}{res}{space 2} .1168162{col 26}{space 2} .1228793{col 37}{space 1}    0.95{col 46}{space 3}0.356{col 54}{space 4}-.1436764{col 67}{space 3} .3773087
+{txt}{space 8}L7D. {c |}{col 14}{res}{space 2} .0766271{col 26}{space 2} .1263458{col 37}{space 1}    0.61{col 46}{space 3}0.553{col 54}{space 4} -.191214{col 67}{space 3} .3444681
+{txt}{space 8}L8D. {c |}{col 14}{res}{space 2}-.1698445{col 26}{space 2} .1182675{col 37}{space 1}   -1.44{col 46}{space 3}0.170{col 54}{space 4}-.4205603{col 67}{space 3} .0808713
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .6206713{col 26}{space 2} .3399069{col 37}{space 1}    1.83{col 46}{space 3}0.087{col 54}{space 4}-.0998992{col 67}{space 3} 1.341242
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(7) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       27
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -3.332            -3.736            -2.994            -2.628
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.0135
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.2202621{col 26}{space 2} .0661031{col 37}{space 1}   -3.33{col 46}{space 3}0.004{col 54}{space 4}-.3591394{col 67}{space 3}-.0813847
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2} .2028821{col 26}{space 2} .1561376{col 37}{space 1}    1.30{col 46}{space 3}0.210{col 54}{space 4}-.1251509{col 67}{space 3}  .530915
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2} .2239222{col 26}{space 2}  .163773{col 37}{space 1}    1.37{col 46}{space 3}0.188{col 54}{space 4}-.1201522{col 67}{space 3} .5679966
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2}-.0304942{col 26}{space 2} .1635099{col 37}{space 1}   -0.19{col 46}{space 3}0.854{col 54}{space 4}-.3740158{col 67}{space 3} .3130273
+{txt}{space 8}L4D. {c |}{col 14}{res}{space 2}-.0999165{col 26}{space 2} .1541242{col 37}{space 1}   -0.65{col 46}{space 3}0.525{col 54}{space 4}-.4237195{col 67}{space 3} .2238865
+{txt}{space 8}L5D. {c |}{col 14}{res}{space 2}-.0242947{col 26}{space 2} .1328119{col 37}{space 1}   -0.18{col 46}{space 3}0.857{col 54}{space 4}-.3033223{col 67}{space 3} .2547328
+{txt}{space 8}L6D. {c |}{col 14}{res}{space 2}  .155367{col 26}{space 2} .1322792{col 37}{space 1}    1.17{col 46}{space 3}0.255{col 54}{space 4}-.1225412{col 67}{space 3} .4332752
+{txt}{space 8}L7D. {c |}{col 14}{res}{space 2}-.0276594{col 26}{space 2} .1284518{col 37}{space 1}   -0.22{col 46}{space 3}0.832{col 54}{space 4}-.2975265{col 67}{space 3} .2422078
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .5205093{col 26}{space 2} .3371448{col 37}{space 1}    1.54{col 46}{space 3}0.140{col 54}{space 4}-.1878057{col 67}{space 3} 1.228824
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(6) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       28
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.618            -3.730            -2.992            -2.626
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.4739
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1339995{col 26}{space 2} .0828267{col 37}{space 1}   -1.62{col 46}{space 3}0.121{col 54}{space 4} -.306773{col 67}{space 3} .0387739
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2} .3411435{col 26}{space 2} .2062763{col 37}{space 1}    1.65{col 46}{space 3}0.114{col 54}{space 4}-.0891414{col 67}{space 3} .7714284
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2} .1588113{col 26}{space 2} .2178656{col 37}{space 1}    0.73{col 46}{space 3}0.474{col 54}{space 4}-.2956483{col 67}{space 3} .6132709
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2}-.3634581{col 26}{space 2} .1911048{col 37}{space 1}   -1.90{col 46}{space 3}0.072{col 54}{space 4}-.7620958{col 67}{space 3} .0351796
+{txt}{space 8}L4D. {c |}{col 14}{res}{space 2} .2042681{col 26}{space 2} .1723634{col 37}{space 1}    1.19{col 46}{space 3}0.250{col 54}{space 4}-.1552756{col 67}{space 3} .5638118
+{txt}{space 8}L5D. {c |}{col 14}{res}{space 2} .0051592{col 26}{space 2} .1772361{col 37}{space 1}    0.03{col 46}{space 3}0.977{col 54}{space 4}-.3645489{col 67}{space 3} .3748673
+{txt}{space 8}L6D. {c |}{col 14}{res}{space 2} .0505813{col 26}{space 2} .1725981{col 37}{space 1}    0.29{col 46}{space 3}0.772{col 54}{space 4}-.3094521{col 67}{space 3} .4106147
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .3400212{col 26}{space 2} .4355775{col 37}{space 1}    0.78{col 46}{space 3}0.444{col 54}{space 4}-.5685774{col 67}{space 3}  1.24862
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(5) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       29
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.246            -3.723            -2.989            -2.625
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.6534
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.0992653{col 26}{space 2} .0796538{col 37}{space 1}   -1.25{col 46}{space 3}0.226{col 54}{space 4}-.2644572{col 67}{space 3} .0659266
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2} .3365179{col 26}{space 2} .2066255{col 37}{space 1}    1.63{col 46}{space 3}0.118{col 54}{space 4}-.0919972{col 67}{space 3}  .765033
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2} .0266677{col 26}{space 2} .1926673{col 37}{space 1}    0.14{col 46}{space 3}0.891{col 54}{space 4}-.3728999{col 67}{space 3} .4262353
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2}-.2826705{col 26}{space 2} .1629402{col 37}{space 1}   -1.73{col 46}{space 3}0.097{col 54}{space 4}-.6205878{col 67}{space 3} .0552469
+{txt}{space 8}L4D. {c |}{col 14}{res}{space 2} .2328404{col 26}{space 2} .1708881{col 37}{space 1}    1.36{col 46}{space 3}0.187{col 54}{space 4}-.1215598{col 67}{space 3} .5872406
+{txt}{space 8}L5D. {c |}{col 14}{res}{space 2} -.033319{col 26}{space 2} .1728799{col 37}{space 1}   -0.19{col 46}{space 3}0.849{col 54}{space 4}-.3918499{col 67}{space 3} .3252119
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .2422588{col 26}{space 2} .4242691{col 37}{space 1}    0.57{col 46}{space 3}0.574{col 54}{space 4}-.6376215{col 67}{space 3} 1.122139
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(4) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       30
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.291            -3.716            -2.986            -2.624
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.6334
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.0940163{col 26}{space 2}  .072835{col 37}{space 1}   -1.29{col 46}{space 3}0.209{col 54}{space 4}-.2443403{col 67}{space 3} .0563076
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2} .2859327{col 26}{space 2} .1755555{col 37}{space 1}    1.63{col 46}{space 3}0.116{col 54}{space 4}-.0763961{col 67}{space 3} .6482615
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2}  .075453{col 26}{space 2}  .155829{col 37}{space 1}    0.48{col 46}{space 3}0.633{col 54}{space 4}-.2461622{col 67}{space 3} .3970683
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2}  -.27035{col 26}{space 2} .1548225{col 37}{space 1}   -1.75{col 46}{space 3}0.094{col 54}{space 4}-.5898879{col 67}{space 3} .0491878
+{txt}{space 8}L4D. {c |}{col 14}{res}{space 2} .2143048{col 26}{space 2} .1601806{col 37}{space 1}    1.34{col 46}{space 3}0.193{col 54}{space 4}-.1162917{col 67}{space 3} .5449013
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .2469639{col 26}{space 2} .3905454{col 37}{space 1}    0.63{col 46}{space 3}0.533{col 54}{space 4}-.5590823{col 67}{space 3}  1.05301
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(3) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       31
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.730            -3.709            -2.983            -2.623
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.4155
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1247878{col 26}{space 2} .0721159{col 37}{space 1}   -1.73{col 46}{space 3}0.095{col 54}{space 4}-.2730243{col 67}{space 3} .0234486
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2} .0963372{col 26}{space 2} .1642832{col 37}{space 1}    0.59{col 46}{space 3}0.563{col 54}{space 4}-.2413518{col 67}{space 3} .4340262
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2} .0284748{col 26}{space 2} .1642159{col 37}{space 1}    0.17{col 46}{space 3}0.864{col 54}{space 4}-.3090759{col 67}{space 3} .3660255
+{txt}{space 8}L3D. {c |}{col 14}{res}{space 2}-.2337391{col 26}{space 2}  .163613{col 37}{space 1}   -1.43{col 46}{space 3}0.165{col 54}{space 4}-.5700504{col 67}{space 3} .1025723
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .2057483{col 26}{space 2} .3992144{col 37}{space 1}    0.52{col 46}{space 3}0.611{col 54}{space 4}-.6148487{col 67}{space 3} 1.026345
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(2) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       32
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.466            -3.702            -2.980            -2.622
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.5504
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1126807{col 26}{space 2} .0768824{col 37}{space 1}   -1.47{col 46}{space 3}0.154{col 54}{space 4}-.2701672{col 67}{space 3} .0448057
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2} .2060811{col 26}{space 2} .1802513{col 37}{space 1}    1.14{col 46}{space 3}0.263{col 54}{space 4} -.163147{col 67}{space 3} .5753092
+{txt}{space 8}L2D. {c |}{col 14}{res}{space 2}-.0206163{col 26}{space 2} .1835718{col 37}{space 1}   -0.11{col 46}{space 3}0.911{col 54}{space 4} -.396646{col 67}{space 3} .3554135
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .3115865{col 26}{space 2} .4308142{col 37}{space 1}    0.72{col 46}{space 3}0.476{col 54}{space 4}-.5708963{col 67}{space 3} 1.194069
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. dfuller i, lags(1) reg
+
+{txt}Augmented Dickey-Fuller test for unit root         Number of obs   = {res}       33
+
+{txt}{col 32}{hline 10} Interpolated Dickey-Fuller {hline 9}
+                  Test         1% Critical       5% Critical      10% Critical
+               Statistic           Value             Value             Value
+{hline 78}
+ Z(t)         {res}    -1.362            -3.696            -2.978            -2.620
+{txt}{hline 78}
+MacKinnon approximate p-value for Z(t) = {res}0.6003
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         D.i{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 11}i {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1000549{col 26}{space 2} .0734607{col 37}{space 1}   -1.36{col 46}{space 3}0.183{col 54}{space 4}-.2500817{col 67}{space 3}  .049972
+{txt}{space 9}LD. {c |}{col 14}{res}{space 2}  .202026{col 26}{space 2} .1794045{col 37}{space 1}    1.13{col 46}{space 3}0.269{col 54}{space 4}-.1643669{col 67}{space 3} .5684189
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .3159624{col 26}{space 2} .4139928{col 37}{space 1}    0.76{col 46}{space 3}0.451{col 54}{space 4}-.5295237{col 67}{space 3} 1.161448
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. adf i, reg
+{err}command {bf}adf{sf} is unrecognized
+{txt}{search r(199), local:r(199);}
+
+end of do-file
+
+{search r(199), local:r(199);}
+
+{com}. 
