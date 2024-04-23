@@ -4,7 +4,7 @@ for i=1:size(Ey,1)
     
     if i >= starting_year;
 
-        %Rename the gaps of median SEP forecasts and long run forecast
+        %Rename median SEP forecasts 和long run forecast的偏差
         EU=Ey_gap(i,1:H,1)';
         EPi=Ey_gap(i,1:H,2)';
         EY=[Ey_gap(i,1:H,1)'; Ey_gap(i,1:H,2)'];
@@ -36,6 +36,8 @@ for i=1:size(Ey,1)
         w=[lambda 0; 0 1];
         W=kron(w,eye(H,H));
         %W=kron(w,diag(0.7.^(0:H-1))); % Consider the discount rate
+
+        
     
         index_ij=1;
         for ij_EY=1:TsimEY
@@ -154,66 +156,33 @@ for i=1:size(Ey,1)
         colNames = {'yearn','year','quarter','UR','PI','FFR'};
         bTable = array2table(bTable,'VariableNames',colNames);
 
+        %----------------------Forecast Adjustment------------------------%
+        idx = find(bTable.yearn == SEP_hor(1, i));
+        UR0_adj = bTable.UR(idx) - bTable_raw.UR(idx);
+        PI0_adj = bTable.PI(idx) - bTable_raw.PI(idx);
+        FFR0_adj = bTable.FFR(idx) - bTable_raw.FFR(idx);
 
-        %-------------Revise forecast data (t0, t1, t2, t3)---------------%
-        if (SEP_hor(1, i) >= 2020.25 & SEP_hor(1, i) <= 2022.25) | (SEP_hor(1, i) >= 2008 & SEP_hor(1, i) <= 2015.75)
-            if J1 <= 0
-                J1 = 0;
-            end
+        sTable_UR.median_t(i) = sTable_UR.median_t(i) + 0.093*UR0_adj;
+        sTable_UR.median_t1(i) = sTable_UR.median_t1(i) + 0.058*UR0_adj;
+        %sTable_UR.median_t2(i) = sTable_UR.median_t2(i) + 0.051*UR0_adj;
+
+        sTable_PI.median_t(i) = sTable_PI.median_t(i) + 0.516*PI0_adj;
+        sTable_PI.median_t1(i) = sTable_PI.median_t1(i) + 0.146*PI0_adj;
+        %sTable_PI.median_t2(i) = sTable_PI.median_t2(i) + 0.046*PI0_adj;
+
+        if i >= 62
+            sTable_tp.median_t(i) = sTable_tp.median_t(i) + 0.76*FFR0_adj;
+            sTable_tp.median_t1(i) = sTable_tp.median_t1(i) + 0.41*FFR0_adj;
+            %sTable_tp.median_t2(i) = sTable_tp.median_t2(i) + 0.23*FFR0_adj;
+        else
         end
 
-        IRfore = squeeze(prctile(X1sim,50,2));
-        forecast_adj = IRfore * J1;
-
-        FFRforecast_adj = squeeze(prctile(squeeze(IR(:,3,INDrnd)),50,2)) * J1;
-
-
-        % Coefficient of forecast adjustment
-        URforecast_adj = 0.18*forecast_adj(1:H-1)';
-        PIforecast_adj = 0.13*forecast_adj(H+1:2*H-1)';
-        FFRforecast_adj = 0.74*FFRforecast_adj(1:H-1)';
-
-
-        if i <= numel(SEP_hor(1, :)) - 1
-            for i_fore = i: min( numel(SEP_hor(1, :)), i+H-1)
-                num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
-                if num_to_drop <= H-1
-                    URforecast_adj_temp = URforecast_adj(num_to_drop + 1 : end);
-                    URforecast_adj_temp = horzcat(URforecast_adj_temp, zeros(1, num_to_drop + 1));
-                    Ey_gap(i_fore, :, 1) = Ey_gap(i_fore, :, 1) + URforecast_adj_temp;
-                else
-                end
-            end
-
-            for i_fore = i : min( numel(SEP_hor(1, :)), i+H-1)
-                num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
-                if num_to_drop <= H-1
-                    PIforecast_adj_temp = PIforecast_adj(num_to_drop + 1 : end);
-                    PIforecast_adj_temp = horzcat(PIforecast_adj_temp, zeros(1, num_to_drop + 1));
-                    Ey_gap(i_fore, :, 2) = Ey_gap(i_fore, :, 2) + PIforecast_adj_temp;
-                else
-                end
-            end
-
-            for i_fore = i : min( numel(SEP_hor(1, :)), i+H-1)
-                if numel(SEP_hor(1, :)) - i_fore + 1 <= 33
-                    num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
-                    if num_to_drop <= H-1
-                        FFRforecast_adj_temp = FFRforecast_adj(num_to_drop + 1 : end);
-                        FFRforecast_adj_temp = horzcat(FFRforecast_adj_temp, zeros(1, num_to_drop + 1));
-                        Ey_gap(i_fore, :, 3) = Ey_gap(i_fore, :, 3) + FFRforecast_adj_temp;
-                    else
-                    end
-                else
-                end
-            end
-        end
         %-----------------------------------------------------------------%
 
         %-----Fill in the backcast data to simulate forecast path---------%
-        for i = length(name)
+        for ib = 1:length(name) % mistake
             % UR
-            if i == 1
+            if ib == 1
                 RTlr=sTable_UR.median_lr;
                 RTlr(isnan(sTable_UR.median_lr))=sTable_UR.RealTime_LR(isnan(sTable_UR.median_lr));
                 dataEu=[ sTable_UR.median_t sTable_UR.median_t1 sTable_UR.median_t2 sTable_UR.median_t3 RTlr];
@@ -268,8 +237,8 @@ for i=1:size(Ey,1)
                 end
     
                 %store output
-                Ey(:,:,i)=Eui;
-                Ey_gap(:,:,i)=Eui_gap;
+                Ey(:,:,ib)=Eui;
+                Ey_gap(:,:,ib)=Eui_gap;
             else
                 % PI
                 RTlr=sTable_PI.median_lr;
@@ -327,8 +296,8 @@ for i=1:size(Ey,1)
                 end
     
                 %store output
-                Ey(:,:,i)=Eui;
-                Ey_gap(:,:,i)=Eui_gap;
+                Ey(:,:,ib)=Eui;
+                Ey_gap(:,:,ib)=Eui_gap;
 
             end
         end
@@ -398,6 +367,103 @@ for i=1:size(Ey,1)
         %store output
         Ey(:,:,3)=Eui;
         Ey_gap(:,:,3)=Eui;
+
+        %-------------Revise forecast data (every quarter)-----------------%
+        %if (SEP_hor(1, i) >= 2020.25 & SEP_hor(1, i) <= 2022.25) | (SEP_hor(1, i) >= 2008 & SEP_hor(1, i) <= 2015.75)
+            %if J1 <= 0
+                %J1 = 0;
+            %end
+        %end
+
+        %IRfore = squeeze(prctile(X1sim,50,2));
+        %forecast_adj = IRfore * J1;
+
+        %FFRforecast_adj = squeeze(prctile(squeeze(IR(:,3,INDrnd)),50,2)) * J1;
+
+
+        % Coefficient of forecast adjustment
+        %if Hf == 20 % omit long-run target adjustment
+            %URforecast_adj = 0.68*forecast_adj(1:Hf-1)';
+            %PIforecast_adj = 0.26*forecast_adj(H+1:H+Hf-1)';
+            %FFRforecast_adj = 0.83*FFRforecast_adj(1:Hf-1)';
+
+            %if i <= numel(SEP_hor(1, :)) - 1
+                %for i_fore = i: min( numel(SEP_hor(1, :)), i+Hf-1)
+                    %num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
+                    %if num_to_drop <= Hf-1
+                        %URforecast_adj_temp = URforecast_adj(num_to_drop + 1 : end);
+                        %URforecast_adj_temp = horzcat(URforecast_adj_temp, zeros(1, num_to_drop + 1));
+                        %Ey_gap(i_fore, :, 1) = Ey_gap(i_fore, :, 1) + URforecast_adj_temp;
+                    %else
+                    %end
+                %end
+
+                %for i_fore = i : min( numel(SEP_hor(1, :)), i+Hf-1)
+                    %num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
+                    %if num_to_drop <= Hf-1
+                        %PIforecast_adj_temp = PIforecast_adj(num_to_drop + 1 : end);
+                        %PIforecast_adj_temp = horzcat(PIforecast_adj_temp, zeros(1, num_to_drop + 1));
+                        %Ey_gap(i_fore, :, 2) = Ey_gap(i_fore, :, 2) + PIforecast_adj_temp;
+                    %else
+                    %end
+                %end
+
+                %for i_fore = i : min( numel(SEP_hor(1, :)), i+Hf-1)
+                    %if numel(SEP_hor(1, :)) - i_fore + 1 <= 33
+                        %num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
+                        %if num_to_drop <= Hf-1
+                            %FFRforecast_adj_temp = FFRforecast_adj(num_to_drop + 1 : end);
+                            %FFRforecast_adj_temp = horzcat(FFRforecast_adj_temp, zeros(1, num_to_drop + 1));
+                            %Ey_gap(i_fore, :, 3) = Ey_gap(i_fore, :, 3) + FFRforecast_adj_temp;
+                        %else
+                        %end
+                    %else
+                    %end
+                %end
+            %end
+        %else
+            %URforecast_adj = 0.68*forecast_adj(1:Hf)';
+            %PIforecast_adj = 0.26*forecast_adj(H+1:H+Hf)';
+            %FFRforecast_adj = 0.83*FFRforecast_adj(1:Hf)';
+            
+            %if i <= numel(SEP_hor(1, :)) - 1
+                %for i_fore = i: min( numel(SEP_hor(1, :)), i+Hf-1)
+                    %num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
+                    %if num_to_drop <= Hf-1
+                        %URforecast_adj_temp = URforecast_adj(num_to_drop + 1 : end);
+                        %URforecast_adj_temp = horzcat(URforecast_adj_temp, zeros(1, num_to_drop + H - Hf));
+                        %Ey_gap(i_fore, :, 1) = Ey_gap(i_fore, :, 1) + URforecast_adj_temp;
+                    %else
+                    %end
+                %end
+
+                %for i_fore = i : min( numel(SEP_hor(1, :)), i+Hf-1)
+                    %num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
+                    %if num_to_drop <= Hf-1
+                        %PIforecast_adj_temp = PIforecast_adj(num_to_drop + 1 : end);
+                        %PIforecast_adj_temp = horzcat(PIforecast_adj_temp, zeros(1, num_to_drop + H - Hf));
+                        %Ey_gap(i_fore, :, 2) = Ey_gap(i_fore, :, 2) + PIforecast_adj_temp;
+                    %else
+                    %end
+                %end
+
+                %for i_fore = i : min( numel(SEP_hor(1, :)), i+Hf-1)
+                    %if numel(SEP_hor(1, :)) - i_fore + 1 <= 33
+                        %num_to_drop = round((SEP_hor(1, i_fore) - SEP_hor(1, i)) * 4);
+                        %if num_to_drop <= Hf-1
+                            %FFRforecast_adj_temp = FFRforecast_adj(num_to_drop + 1 : end);
+                            %FFRforecast_adj_temp = horzcat(FFRforecast_adj_temp, zeros(1, num_to_drop + H - Hf));
+                            %Ey_gap(i_fore, :, 3) = Ey_gap(i_fore, :, 3) + FFRforecast_adj_temp;
+                        %else
+                        %end
+                    %else
+                    %end
+                %end
+            %end
+
+        %end
+
+        %-----------------------------------------------------------------%
     
 
 
@@ -498,15 +564,3 @@ for i=1:size(Ey,1)
         delta_inst2(i)=-b(1);
     end
 end
-
-if saveres==1
-    save FedHistory_lambda1_BVAR_ZLB
-end
-
-%% Report results:
-bTable_output_SEP = bTable_output;
-if saver == 1
-    save('bTable_output_SEP_2019.mat', 'bTable_output_SEP', 'yearn','OPP1','yearn_tp');
-    save('Welfare.mat','Ey_gap','Ey_gap_raw', 'yearn');
-end
-Counterfactual_inflation_rate_plot_SEP_2019

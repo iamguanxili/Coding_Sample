@@ -6,8 +6,6 @@ warning off
 
 addpath lib
 
-saver = 0;
-
 starting_year=76; % Choose a starting year for iteration, 76 = 2019Q1
 
 lambda=1; % Choose lambda
@@ -18,7 +16,7 @@ TsimX=100;
 dum_ZLBcstr=1; % Impose ZLB constraint
 
 % Max horizon of forecast
-H=20; % quarters
+H=16; % quarters
 x=(1:H)'; %time for plots
 
 rho=0.9; % Set var-cov matrix for simulations for EY
@@ -100,6 +98,7 @@ for i=1:length(name)
     backdata  =  xlsread('Counterfactual_Objectives.xlsx', 'A2:H178');
     colNames = {'yearn','year','quarter','UR','PI','FFR'};
     bTable = array2table(backdata,'VariableNames',colNames);
+    bTable_raw = bTable;
 
     if i == 1
         target_variable = 'UR';
@@ -318,7 +317,18 @@ bTablematrix = table2array(bTable);
 
 bTable_output = repmat(bTablematrix, [1, 1, TsimEY*TsimX]);
 
-cd("Is_the_Fed_Behind_the_Curve_Selected/Counterfactual_2019/");
+Ey_gap_adj = zeros(size(Ey_gap, 1), size(Ey_gap, 2), size(Ey_gap, 3));
+
+cd("Counterfactual_2019/");
+
 run("Iteration_SEP_2019");
+
+cd("..")
+
+%% Report results:
+bTable_output_SEP = bTable_output;
+cd("Counterfactual_2019/");
+save('bTable_output_SEP_2019.mat', 'bTable_output_SEP', 'yearn','OPP1','yearn_tp');
+Counterfactual_inflation_rate_plot_SEP_2019
 
 toc;

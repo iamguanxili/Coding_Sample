@@ -7,7 +7,7 @@ close all
 run Counterfactual_inflation_rate_SEP_2019.m
 pause
 
-% Figure 4
+% Figure 5
 run Counterfactual_2019/Welfare.m
 pause
 
