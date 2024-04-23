@@ -8,7 +8,7 @@ run Counterfactual_inflation_rate_SEP_2019.m
 pause
 
 % Figure 5
-run Counterfactual_2019/Welfare.m
+run Welfare.m
 pause
 
 toc;

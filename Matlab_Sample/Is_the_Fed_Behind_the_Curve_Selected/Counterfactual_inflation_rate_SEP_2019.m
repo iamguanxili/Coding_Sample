@@ -10,8 +10,8 @@ starting_year=76; % Choose a starting year for iteration, 76 = 2019Q1
 
 lambda=1; % Choose lambda
 
-TsimEY=100; % Number of draws for bands sim
-TsimX=100;
+TsimEY=200; % Number of draws for bands sim
+TsimX=200;
 
 dum_ZLBcstr=1; % Impose ZLB constraint
 

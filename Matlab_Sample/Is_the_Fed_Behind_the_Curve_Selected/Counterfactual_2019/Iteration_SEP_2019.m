@@ -1,10 +1,10 @@
 for i=1:size(Ey,1)
      
-    ['Date of SEP forecast: ', num2str((SEP_hor(1,i))), ', Iteration starts in: ', num2str((SEP_hor(1,starting_year)))] % 使用SEP_hor矩阵的第一行中的日期数据，并将其转换为字符串形式，然后输出一个包含日期信息的字符串
+    ['Date of SEP forecast: ', num2str((SEP_hor(1,i))), ', Iteration starts in: ', num2str((SEP_hor(1,starting_year)))] 
     
     if i >= starting_year;
 
-        %Rename median SEP forecasts 和long run forecast的偏差
+        %Rename median SEP forecasts
         EU=Ey_gap(i,1:H,1)';
         EPi=Ey_gap(i,1:H,2)';
         EY=[Ey_gap(i,1:H,1)'; Ey_gap(i,1:H,2)'];

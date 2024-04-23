@@ -1,5 +1,5 @@
 %% Baseline Welfare Improved
-
+cd("Counterfactual_2019/")
 load("Welfare_foreadj2.mat")
 
 temp = reshape(sum(Ey_gap_raw.^2, 2), [], 3);
