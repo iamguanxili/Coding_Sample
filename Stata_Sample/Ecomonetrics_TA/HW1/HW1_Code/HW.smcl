@@ -1,0 +1,84 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/liguanxi/Desktop/Stata/Metrics/HW1/HW.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Apr 2024, 21:18:46
+{txt}
+{com}. clear
+{txt}
+{com}. set more off
+{txt}
+{com}. 
+. cd "~/Desktop/Stata/Metrics/HW1"
+{res}/Users/liguanxi/Desktop/Stata/Metrics/HW1
+{txt}
+{com}. 
+. use "~/Desktop/Stata/Metrics/HW1/cps08.dta",clear
+{txt}
+{com}. 
+. reg ahe age, r
+
+{txt}Linear regression                               Number of obs     = {res}     7,711
+                                                {txt}F(1, 7709)        =  {res}   225.70
+                                                {txt}Prob > F          = {res}    0.0000
+                                                {txt}R-squared         = {res}    0.0290
+                                                {txt}Root MSE          =    {res} 9.9919
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}         ahe{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} .6049863{col 26}{space 2} .0402701{col 37}{space 1}   15.02{col 46}{space 3}0.000{col 54}{space 4}  .526046{col 67}{space 3} .6839266
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 1.082275{col 26}{space 2} 1.167013{col 37}{space 1}    0.93{col 46}{space 3}0.354{col 54}{space 4}-1.205388{col 67}{space 3} 3.369938
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. est store a1
+{txt}
+{com}. 
+. reg ahe age if bachelor == 0
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     4,002
+{txt}{hline 13}{c +}{hline 34}   F(1, 4000)      = {res}    48.56
+{txt}       Model {c |} {res} 2846.11544         1  2846.11544   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 234434.405     4,000  58.6086014   {txt}R-squared       ={res}    0.0120
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0117
+{txt}       Total {c |} {res} 237280.521     4,001  59.3053039   {txt}Root MSE        =   {res} 7.6556
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ahe{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2} .2978627{col 26}{space 2} .0427436{col 37}{space 1}    6.97{col 46}{space 3}0.000{col 54}{space 4} .2140616{col 67}{space 3} .3816639
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2} 6.521941{col 26}{space 2} 1.269993{col 37}{space 1}    5.14{col 46}{space 3}0.000{col 54}{space 4} 4.032048{col 67}{space 3} 9.011834
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. est store a2
+{txt}
+{com}. 
+. reg ahe age if bachelor == 1
+
+{txt}      Source {c |}       SS           df       MS      Number of obs   ={res}     3,709
+{txt}{hline 13}{c +}{hline 34}   F(1, 3707)      = {res}   233.02
+{txt}       Model {c |} {res} 26310.4073         1  26310.4073   {txt}Prob > F        ={res}    0.0000
+{txt}    Residual {c |} {res} 418558.237     3,707  112.910234   {txt}R-squared       ={res}    0.0591
+{txt}{hline 13}{c +}{hline 34}   Adj R-squared   ={res}    0.0589
+{txt}       Total {c |} {res} 444868.644     3,708  119.975362   {txt}Root MSE        =   {res} 10.626
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ahe{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 9}age {c |}{col 14}{res}{space 2}  .924596{col 26}{space 2} .0605696{col 37}{space 1}   15.27{col 46}{space 3}0.000{col 54}{space 4} .8058429{col 67}{space 3} 1.043349
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-4.439163{col 26}{space 2} 1.799991{col 37}{space 1}   -2.47{col 46}{space 3}0.014{col 54}{space 4}-7.968234{col 67}{space 3}-.9100928
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. est store a3
+{txt}
+{com}. 
+. outreg2 [a1 a2 a3] using HW1.tex, replace
+{txt}{stata `"shellout using `"HW1.tex"'"':HW1.tex}
+{browse `"/Users/liguanxi/Desktop/Stata/Metrics/HW1"' :dir}{com} : {txt}{stata `"seeout using "HW1.txt""':seeout}
+
+{com}. 
+{txt}end of do-file
+
+{com}. 
